@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حذف الحساب — طقس السودان</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --card: #1a1a1a;
+      --border: rgba(255,255,255,0.08);
+      --accent: #f59e0b;
+      --danger: #ef4444;
+      --danger-dim: rgba(239,68,68,0.12);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    /* subtle grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px 32px;
+      max-width: 480px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+    }
+
+    /* top accent line */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 24px; left: 24px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--danger), transparent);
+      border-radius: 2px;
+    }
+
+    /* app header */
+    .app-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .app-icon {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #1e3a5f, #0f2940);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      flex-shrink: 0;
+    }
+
+    .app-name {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .app-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* danger icon */
+    .danger-icon {
+      width: 72px;
+      height: 72px;
+      background: var(--danger-dim);
+      border: 1px solid rgba(239,68,68,0.25);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: var(--danger);
+      margin: 0 auto 20px;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.3); }
+      50%       { box-shadow: 0 0 0 12px rgba(239,68,68,0); }
+    }
+
+    h1 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    /* warning box */
+    .warning-box {
+      background: var(--danger-dim);
+      border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 14px;
+      padding: 18px 16px;
+      margin-bottom: 28px;
+    }
+
+    .warning-box p {
+      font-size: 0.85rem;
+      color: #fca5a5;
+      line-height: 1.75;
+      font-weight: 600;
+    }
+
+    .warning-box i {
+      color: var(--danger);
+      margin-left: 6px;
+    }
+
+    /* steps */
+    .steps-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 14px;
+    }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      background: rgba(245,158,11,0.15);
+      border: 1px solid rgba(245,158,11,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 900;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .step-text {
+      font-size: 0.88rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .step-text strong {
+      color: var(--accent);
+    }
+
+    /* arrow between steps */
+    .step-arrow {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.7rem;
+      margin: -4px 0;
+    }
+
+    /* contact section */
+    .contact-section {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      text-align: center;
+    }
+
+    .contact-section p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+      line-height: 1.7;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .contact-btn:hover {
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    .contact-btn i { color: var(--accent); }
+
+    /* footer */
+    footer {
+      margin-top: 28px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: rgba(148,163,184,0.5);
+    }
+
+    footer a {
+      color: rgba(148,163,184,0.7);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- App Header -->
+    <div class="app-header">
+      <div class="app-icon">🌦️</div>
+      <div>
+        <div class="app-name">طقس السودان</div>
+        <div class="app-sub">Sudan Weather App</div>
+      </div>
+    </div>
+
+    <!-- Icon + Title -->
+    <div class="danger-icon">
+      <i class="fas fa-user-slash"></i>
+    </div>
+
+    <h1>حذف الحساب والبيانات</h1>
+    <p class="subtitle">
+      يمكنك حذف حسابك وجميع بياناتك الشخصية نهائياً<br>من داخل التطبيق باتباع الخطوات أدناه.
+    </p>
+
+    <!-- Warning -->
+    <div class="warning-box">
+      <p>
+        <i class="fas fa-exclamation-triangle"></i>
+        هذا الإجراء <strong>لا يمكن التراجع عنه</strong>. سيتم حذف حسابك وجميع بياناتك من قواعد البيانات نهائياً، وسينتهي اشتراكك فوراً دون استرداد أي رصيد متبقٍ. لاستخدام التطبيق مجدداً يجب إنشاء حساب جديد.
+      </p>
+    </div>
+
+    <!-- Steps -->
+    <div class="steps-title">خطوات حذف الحساب</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">١</div>
+        <div class="step-text">افتح تطبيق <strong>طقس السودان</strong> على جهازك</div>
+      </div>
+      <div class="step-arrow"><i class="fas fa-chevron-down"></i></div>
+      <div class="step">
+        <div class="step-num">٢</div>
+        <div class="step-text">اضغط على <strong>الإعدادات</strong> من شريط التنقل السفلي</div>
+      </div>
+      <div class="step-arrow"><i class="fas fa-chevron-down"></i></div>
+      <div class="step">
+        <div class="step-num">٣</div>
+        <div class="step-text">انتقل إلى الأسفل وابحث عن قسم <strong>منطقة الخطر</strong></div>
+      </div>
+      <div class="step-arrow"><i class="fas fa-chevron-down"></i></div>
+      <div class="step">
+        <div class="step-num">٤</div>
+        <div class="step-text">اضغط على <strong>حذف جميع البيانات نهائياً</strong> واتبع تعليمات التأكيد</div>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="contact-section">
+      <p>
+        هل تواجه مشكلة أو تحتاج مساعدة في حذف حسابك؟<br>
+        تواصل معنا مباشرة عبر البريد الإلكتروني.
+      </p>
+      <a class="contact-btn" href="mailto:support@sudanweather.app">
+        <i class="fas fa-envelope"></i>
+        تواصل مع الدعم
+      </a>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2025 طقس السودان &nbsp;·&nbsp;
+    <a href="#">سياسة الخصوصية</a>
+  </footer>
+
+</body>
+</html>
